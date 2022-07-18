@@ -1,0 +1,34 @@
+{% extends "catalog/base.html" %}
+
+{% block title %}
+  Create/Update {{ model }}
+{% endblock %}
+
+{% block header %}
+  <h1>Create/Update {{ model }}</h1>
+{% endblock %}
+
+{% block main %}
+
+  <span class="form-text field-errors">
+    {{ form.non_field_errors }}
+  </span>
+
+  <form action="" method="post">
+    {% csrf_token %}
+
+    {% for field in form %}
+      <div class="mb-3">
+        <label class="form-label" for="{{ field.id_for_label }}" >{{ field.label }}</label>
+        {{ field }}
+        <div class="form-text">{{ field.help_text }}</div>
+        <span class="form-text field-errors">
+          {% for error in field.errors %}
+            {{ error }}
+          {% endfor %}
+        </span>
+      </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+{% endblock %}

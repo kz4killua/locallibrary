@@ -1,0 +1,34 @@
+{% extends "catalog/base.html" %}
+
+{% block header %}
+    <div class="alert alert-success" role="alert">
+        Success! Head to the library for pickup.
+    </div>
+
+    <a type="button" class="btn btn-primary" href="{% url 'catalog:borrowed' %}">Borrowed Books</a>
+    <a type="button" class="btn btn-primary" href="{% url 'catalog:all-books' %}">All Books</a>
+{% endblock %}
+
+{% block main %}
+    <h1>Summary</h1>
+    <hr>
+    <h3>Borrower</h3>
+    {{ user.username }}
+    <hr>
+    <h3>Books</h3>
+    <ul>
+        {% for book in books %}
+            <li>
+                <a href="{{ book.get_absolute_url }}">{{ book.title }}</a>
+            </li>
+        {% empty %}
+            <p>No books.</p>
+        {% endfor %}
+    </ul>
+    <hr>
+    <h3>Loan Date</h3>
+    {{ loan_date }}
+    <hr>
+    <h3>Due Back Date</h3>
+    {{ due_back_date }}
+{% endblock %}

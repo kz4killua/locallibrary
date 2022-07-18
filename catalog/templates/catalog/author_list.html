@@ -1,0 +1,24 @@
+{% extends "catalog/base.html" %}
+
+{% block main %}
+    <h1>
+        {{ list_name }}
+    </h1>
+
+    <ul class="author-list">
+        {% for author in author_list %}
+            <li class="author-item">
+                <a href="{{ author.get_absolute_url }}">
+                    {% if author.portrait %}
+                        <img class="portrait-image" src="{{ author.portrait }}" alt="Portrait of {{ author.title }}">
+                    {% else %}
+                        <div class="portrait-image">{{ author.title }}</div>
+                    {% endif %}
+                </a>
+                <div class="author-name">{{ author }}</div>
+            </li>
+        {% empty %}
+            <p>No authors.</p>
+        {% endfor %}
+    </ul>
+{% endblock %}

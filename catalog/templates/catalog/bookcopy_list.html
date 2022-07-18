@@ -1,0 +1,46 @@
+{% extends "catalog/base.html" %}
+
+{% block title %}
+    Book Copies
+{% endblock %}
+
+{% block header %}
+    <h1>Copies of {{ book.title }}</h1>
+
+    {% if 'catalog.add_bookcopy' in perms %}
+        <a type="button" class="btn btn-secondary" href="{% url 'catalog:bookcopy-create' %}">Create Copy</a>
+    {% endif %}
+{% endblock %}
+
+{% block main %}
+
+    {% if bookcopy_list %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Book</th>
+                    <th>On Loan</th>
+                    <th>On Maintenance</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for bookcopy in bookcopy_list %}
+                    <tr>
+                        <td>{{ bookcopy.pk }}</td>
+                        <td>{{ bookcopy.book }}</td>
+                        <td>{{ bookcopy.on_loan }}</td>
+                        <td>{{ bookcopy.on_maintenance }}</td>
+                        <td><a href="{% url 'catalog:bookcopy-update' bookcopy.pk %}">Edit</a></td>
+                        <td><a href="{% url 'catalog:bookcopy-delete' bookcopy.pk %}">Delete</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No copies</p>
+    {% endif %}
+
+{% endblock %}

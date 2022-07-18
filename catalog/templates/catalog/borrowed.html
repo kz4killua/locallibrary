@@ -1,0 +1,36 @@
+{% extends "catalog/base.html" %}
+
+{% block title %}
+    Borrowed
+{% endblock %}
+
+{% block header %}
+    <h1>My Borrowed Books</h1>
+{% endblock %}
+
+{% block main %}
+    {% if loans %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Book</th>
+                <th>Loan Date</th>
+                <th>Due Back Date</th>
+                <th>Return Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for loan in loans %}
+                <tr {% if loan.is_overdue %}class="table-danger"{% endif %}>
+                    <td>{{ loan.bookcopy.book.title }}</td>
+                    <td>{{ loan.loan_date }}</td>
+                    <td>{{ loan.due_back_date }}</td>
+                    <td>{{ loan.return_date }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No borrowed books.</p>
+    {% endif %}
+{% endblock %}

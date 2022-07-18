@@ -1,0 +1,14 @@
+{% extends "catalog/base.html" %}
+
+{% block main %}
+
+<h1>Delete Loan</h1>
+
+<p>Are you sure you want to delete the loan: {{ loan }}?</p>
+
+<form action="" method="POST">
+  {% csrf_token %}
+  <input type="submit" class="btn btn-danger" value="Yes, delete.">
+</form>
+
+{% endblock %}

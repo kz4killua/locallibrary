@@ -1,0 +1,35 @@
+{% extends "accounts/base.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block header %}
+  <h1>Sign up</h1>
+{% endblock %}
+
+{% block main %}
+
+    <span class="form-text field-errors">
+        {{ form.non_field_errors }}
+    </span>
+    
+    <form action="{% url 'accounts:register' %}" method="post">
+      {% csrf_token %}
+      
+      {% for field in form %}
+        <div class="mb-3">
+          <label class="form-label" for="{{ field.id_for_label }}" >{{ field.label }}</label>
+          {{ field }}
+          <div class="form-text">{{ field.help_text }}</div>
+          <span class="form-text field-errors">
+            {% for error in field.errors %}
+              {{ error }}
+            {% endfor %}
+          </span>
+        </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+
+{% endblock %}

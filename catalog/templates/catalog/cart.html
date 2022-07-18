@@ -1,0 +1,13 @@
+{% extends "catalog/book_list.html" %}
+
+{% block title %}
+    Cart
+{% endblock %}
+
+{% block header %}
+    {% if book_list %}
+        <a href="{% url 'catalog:checkout' %}">
+            <button class="btn btn-primary" type="submit">Proceed to Checkout</button>
+        </a>
+    {% endif %}
+{% endblock %}

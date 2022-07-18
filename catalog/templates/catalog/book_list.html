@@ -1,0 +1,25 @@
+{% extends "catalog/base.html" %}
+
+{% block main %}
+
+    <h1>
+        {{ list_name }}
+    </h1>
+
+    <ul class="book-list">
+        {% for book in book_list %}
+            <li class="book-item">
+                <a href="{{ book.get_absolute_url }}">
+                    {% if book.cover %}
+                        <img class="cover-image" src="{{ book.cover }}" alt="Cover of {{ book.title }}">
+                    {% else %}
+                        <div class="cover-image">{{ book.title }}</div>
+                    {% endif %}
+                </a>
+                <div class="book-title">{{ book.title }}</div>
+            </li>
+        {% empty %}
+            <p>No books.</p>
+        {% endfor %}
+    </ul>
+{% endblock %}

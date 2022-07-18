@@ -1,0 +1,42 @@
+{% extends "catalog/base.html" %}
+
+{% block title %}
+    Active Loans
+{% endblock %}
+
+{% block main %}
+    <h1>Active Loans</h1>
+
+    {% if loan_list %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Book</th>
+                <th>Copy ID</th>
+                <th>Borrower</th>
+                <th>Loan Date</th>
+                <th>Due Back Date</th>
+                <th>Return Date</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for loan in loan_list %}
+                <tr {% if loan.is_overdue %}class="table-danger"{% endif %}>
+                    <td>{{ loan.bookcopy.book.title }}</td>
+                    <td>{{ loan.bookcopy.pk }}</td>
+                    <td>{{ loan.borrower.username }}</td>
+                    <td>{{ loan.loan_date }}</td>
+                    <td>{{ loan.due_back_date }}</td>
+                    <td>{{ loan.return_date }}</td>
+                    <td><a href="{% url 'catalog:loan-update' loan.pk %}">Edit</a></td>
+                    <td><a href="{% url 'catalog:loan-delete' loan.pk %}">Delete</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No loans.</p>
+    {% endif %}
+{% endblock %}

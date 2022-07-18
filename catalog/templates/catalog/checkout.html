@@ -1,0 +1,32 @@
+{% extends "catalog/base.html" %}
+
+{% block main %}
+    <h1>Checkout Details</h1>
+    <hr>
+    <h3>Borrower</h3>
+    {{ user.username }}
+    <hr>
+    <h3>Books</h3>
+    <ul>
+        {% for book in books %}
+            <li>
+                <a href="{{ book.get_absolute_url }}">{{ book.title }}</a>
+            </li>
+        {% empty %}
+            <p>No books.</p>
+        {% endfor %}
+    </ul>
+    <hr>
+    <h3>Loan Date</h3>
+    {{ loan_date }}
+    <hr>
+    <h3>Due Back Date</h3>
+    {{ due_back_date }}
+    <hr>
+
+    <form action="{% url 'catalog:checkout' %}" method="post">
+        {% csrf_token %}
+        {{ loan_form }}
+        <input type="submit" class="btn btn-success" value="Checkout">
+    </form>
+{% endblock %}

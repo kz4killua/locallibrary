@@ -1,0 +1,97 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            {% block title %}
+            {% endblock %}
+        </title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'catalog/styles.css' %}">
+        <link rel="icon" type="image/x-icon" href="{% static 'catalog/favicon.ico' %}">
+        <script src="{% static 'catalog/main.js' %}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg bg-light">
+            {% block nav %}
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{% url 'catalog:index' %}">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Book.svg/1200px-Book.svg.png" alt="Picture of a book" id="base-book-icon">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a class="nav-link active" href="{% url 'catalog:all-books' %}">All Books</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="{% url 'catalog:all-authors' %}">All Authors</a></li>
+                    {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="nav-link active" href="{% url 'catalog:cart' %}">
+                                    Cart <span class="badge text-bg-primary" id="cart-badge">{{ request.session.cart|length }}</span>
+                                </a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link active" href="{% url 'catalog:borrowed' %}">Borrowed</a></li>
+                            {% if 'catalog.view_loan' in perms %}
+                                <li class="nav-item"><a class="nav-link active" href="{% url 'catalog:active-loans' %}">Active Loans</a></li>
+                            {% endif %}
+                            <li class="nav-item"><a class="nav-link active" href="{% url 'accounts:logout' %}">Logout</a></li>
+                    {% else %}
+                            <li class="nav-item"><a class="nav-link active" href="{% url 'accounts:login' %}">Login</a></li>
+                    {% endif %}
+                    </ul>
+                </div>        
+            </div>
+            {% endblock %}
+        </nav>
+        
+
+        <header>
+            {% block header %}
+            {% endblock %}
+        </header>
+
+        <main>
+            {% block main %}
+            {% endblock %}
+        </main>
+
+        {% block pagination %}
+            {% if is_paginated %}
+                <nav aria-label="Pagination">
+                    <ul class="pagination justify-content-center">
+                    
+                        {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1" aria-disabled="false">Previous</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
+                        {% endif %}
+                    
+                        <li class="page-item active" aria-current="page">
+                            <a class="page-link" href="#">{{ page_obj.number }}</a>
+                        </li>
+                    
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
+        {% endblock %}
+    </body>
+</html>
