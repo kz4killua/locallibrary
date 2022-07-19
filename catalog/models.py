@@ -24,6 +24,9 @@ class Author(models.Model):
         return reverse('catalog:author-detail', args=(self.pk,))
 
     def serialize(self):
+        """Returns author information in a Python dictionary. 
+        
+        This is helpful for returning JSON responses."""
         return {
             "full_name": str(self),
             "first_name": self.first_name,
@@ -46,6 +49,7 @@ class Book(models.Model):
         return f"{self.title} - {self.author_list()}"
 
     def author_list(self):
+        """Returns a string listing all authors of a book separated by semicolons."""
         return '; '.join(
             [str(author) for author in self.authors.all()]
         )
@@ -54,11 +58,15 @@ class Book(models.Model):
         return reverse('catalog:book-detail', args=(self.pk,))
 
     def available_copies(self):
+        """Returns all available bookcopies 
+        
+        i.e book copies thaat are not on loan and not on maintenance."""
         return BookCopy.objects.filter(book_id=self.id, on_maintenance=False).exclude(
             id__in=Loan.objects.filter(return_date=None).values_list('bookcopy', flat=True)
         )
 
     def average_rating(self):
+        """Returns the average rating of a book."""
         ratings = Review.objects.filter(book_id=self.id).values_list('rating', flat=True)
         if ratings:
             return round(sum(ratings) / len(ratings), 1)
@@ -66,6 +74,9 @@ class Book(models.Model):
             return None
 
     def serialize(self):
+        """Returns author information in a Python dictionary. 
+        
+        This is helpful for returning JSON responses."""
         return {
             "title": self.title,
             "authors": [str(author) for author in self.authors.all()],
@@ -86,6 +97,7 @@ class BookCopy(models.Model):
         return self.book.title
 
     def on_loan(self):
+        """Returns True if a book copy is currently on loan and False otherwise."""
         return self.loans.filter(return_date=None).exists()
 
 
@@ -104,6 +116,7 @@ class Loan(models.Model):
         return f'{self.bookcopy.book.title}; {self.loan_date}'
 
     def is_overdue(self):
+        """Returns True if a loan is overdue and False otherwise."""
         return (self.return_date is None) and (self.due_back_date <= datetime.today().date())
 
 

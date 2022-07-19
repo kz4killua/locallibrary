@@ -5,6 +5,7 @@ from catalog.forms import StyledValidation
 
 
 class RegistrationForm(StyledValidation, UserCreationForm):
+    """A form to create an account for a user. """
 
     def __init__(self, *args):
         super().__init__(*args)
@@ -17,6 +18,7 @@ class RegistrationForm(StyledValidation, UserCreationForm):
 
 
 class LoginForm(AuthenticationForm):
+    """A form to login a user. """
     username = forms.CharField(
         widget = forms.TextInput(
             attrs={'class': "form-control", 'id': "floatingInput", 'placeholder': "Username"}

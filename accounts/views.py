@@ -11,6 +11,7 @@ User = get_user_model()
 
 
 def register(request):
+    """Creates an account for a user."""
     if request.method == "GET":
         return render(request, "accounts/register.html", {
             "form": RegistrationForm()
@@ -34,9 +35,11 @@ def register(request):
 
 
 class Login(LoginView):
+    """Logs in a user."""
     template_name = 'accounts/login.html'
     authentication_form = LoginForm
 
 
 class Logout(LogoutView):
+    """Logs out a user."""
     pass

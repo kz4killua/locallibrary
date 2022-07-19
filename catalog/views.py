@@ -18,6 +18,9 @@ User = get_user_model()
 
 
 def can_review(user_id, book_id):
+    """Returns True if a user can review a book and False otherwise.
+    
+    A user can only review a book that they have previously borrowed."""
     return Loan.objects.filter(
         borrower__id=user_id, 
         bookcopy__book__id=book_id).exists()
@@ -106,6 +109,7 @@ class BookCopyListView(generic.ListView):
 
 
 class BookSearchView(BookListView):
+    """Displays search results for a book."""
 
     def get_form_query(self):
         form = BookSearchForm(self.request.GET)
@@ -124,6 +128,7 @@ class BookSearchView(BookListView):
         
 
 class AuthorSearchView(AuthorListView):
+    """Displays search results for an author."""
 
     def get_form_query(self):
         form = BookSearchForm(self.request.GET)
@@ -145,6 +150,7 @@ class AuthorSearchView(AuthorListView):
 
 
 class CartView(LoginRequiredMixin, BookListView):
+    """Displays all books in a user's cart."""
     template_name = 'catalog/cart.html'
 
     def get_queryset(self):
@@ -158,7 +164,8 @@ class CartView(LoginRequiredMixin, BookListView):
 
 
 @login_required
-def toggle_cart(request, pk):    
+def toggle_cart(request, pk):   
+    """Adds or removes a book from the cart.""" 
     cart = request.session.get('cart', list())
     # Make sure a book with that pk exists
     try:
@@ -181,6 +188,7 @@ def toggle_cart(request, pk):
 
 @login_required
 def checkout(request):
+    """Creates loans for all books on a user's cart."""
 
     # Cart must not be empty
     if not len(request.session.get('cart', list())):
@@ -224,6 +232,7 @@ def checkout(request):
 
 @login_required
 def borrowed(request):
+    """Display all of the user's active loans."""
     return render(request, "catalog/borrowed.html", {
         "loans": Loan.objects.filter(borrower_id=request.user.id, return_date=None)
     })
@@ -231,6 +240,7 @@ def borrowed(request):
 
 @login_required
 def review(request, pk):
+    """Posts or updates a review."""
     if request.method == "POST":
 
         # Load data
@@ -396,6 +406,7 @@ class LoanDeleteView(PermissionRequiredMixin, generic.DeleteView):
 
 
 def author_search_api(request):
+    """Asynchronously returns all authors matching a search query."""
     query = request.GET['query']
     # Get all authors matching the query
     authors = Author.objects.filter(
@@ -408,6 +419,7 @@ def author_search_api(request):
 
 
 def book_search_api(request):
+    """Asynchronously returns all books matching a search query."""
     query = request.GET['query']
     # Get all books matching the query
     books = Book.objects.filter(title__icontains=query)

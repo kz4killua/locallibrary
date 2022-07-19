@@ -4,6 +4,11 @@ from .models import BookCopy, Review, Book, Author
 
 
 class StyledValidation:
+    """
+    Adds the class 'is-invalid' to every invalid form field.
+
+    This allows CSS to be used to target invalid form fields.
+    """
 
     def clean(self):
         data = super().clean()
@@ -17,6 +22,7 @@ class StyledValidation:
 
 
 class BookSearchForm(StyledValidation, forms.Form):
+    """Form for searching for a book."""
     query = forms.CharField(
         widget=forms.TextInput(attrs={
             'class': 'book-search-input',
@@ -28,6 +34,7 @@ class BookSearchForm(StyledValidation, forms.Form):
 
 
 class AuthorSearchForm(StyledValidation, forms.Form):
+    """Form for searching for an author."""
     query = forms.CharField(
         widget=forms.TextInput(attrs={
             'class': 'author-search-input',
@@ -43,12 +50,14 @@ class LoanForm(forms.Form):
 
 
 class ReviewForm(forms.ModelForm):
+    """Model form for creating or updating a review."""
     class Meta:
         model = Review
         fields = ("comment", "rating")
 
 
 class BookForm(StyledValidation, forms.ModelForm):
+    """Model form for creating or updating a book."""
     class Meta:
         model = Book
         fields = ('title', 'authors', 'summary', 'cover')
@@ -77,6 +86,7 @@ class BookForm(StyledValidation, forms.ModelForm):
 
 
 class AuthorForm(StyledValidation, forms.ModelForm):
+    """Model form for creating or updating an author."""
 
     class Meta:
         model = Author
@@ -101,6 +111,7 @@ class AuthorForm(StyledValidation, forms.ModelForm):
 
 
 class BookCopyForm(StyledValidation, forms.ModelForm):
+    """Model form for creating or updating a book copy."""
 
     class Meta:
         model = BookCopy
