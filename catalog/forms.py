@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import BookCopy, Loan, Review, Book, Author
+from .models import BookCopy, Review, Book, Author
 
 
 class StyledValidation:

@@ -1,7 +1,7 @@
 import datetime
 import json
 
-from django.http import Http404, HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import Http404, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from django.db.models import Q
@@ -9,7 +9,6 @@ from django.urls import reverse, reverse_lazy
 from django.contrib.auth import get_user_model, get_user
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django import template
 
 from .models import Book, Author, BookCopy, Loan, Review
 from .forms import LoanForm, ReviewForm, BookSearchForm, AuthorSearchForm, BookForm, AuthorForm, BookCopyForm
