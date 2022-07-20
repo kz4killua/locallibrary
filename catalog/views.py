@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from .models import Book, Author, BookCopy, Loan, Review
-from .forms import LoanForm, ReviewForm, BookSearchForm, AuthorSearchForm, BookForm, AuthorForm, BookCopyForm
+from .forms import CheckoutForm, LoanForm, ReviewForm, BookSearchForm, AuthorSearchForm, BookForm, AuthorForm, BookCopyForm
 
 
 User = get_user_model()
@@ -195,7 +195,7 @@ def checkout(request):
         raise Http404()
 
     # Collect data
-    loan_form = LoanForm(request.POST or None)
+    loan_form = CheckoutForm(request.POST or None)
     books = Book.objects.filter(id__in=request.session['cart'])
     loan_date = datetime.date.today()
     due_back_date = datetime.date.today() + datetime.timedelta(weeks=3)

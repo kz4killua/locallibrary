@@ -1,6 +1,7 @@
+from attr import attrs
 from django import forms
 
-from .models import BookCopy, Review, Book, Author
+from .models import BookCopy, Loan, Review, Book, Author
 
 
 class StyledValidation:
@@ -45,8 +46,31 @@ class AuthorSearchForm(StyledValidation, forms.Form):
         strip=True)
 
 
-class LoanForm(forms.Form):
+class CheckoutForm(forms.Form):
     pass
+
+
+class LoanForm(forms.ModelForm):
+    class Meta:
+        model = Loan
+        fields = ("bookcopy", "borrower", "loan_date", "due_back_date", "return_date")
+        widgets = {
+            'bookcopy': forms.Select(
+                attrs={'class': 'form-select'}
+            ),
+            'borrower': forms.Select(
+                attrs={'class': 'form-select'}
+            ),
+            'loan_date': forms.DateInput(
+                attrs={'class': 'form-control'}
+            ),
+            'due_back_date': forms.DateInput(
+                attrs={'class': 'form-control'}
+            ),
+            'return_date': forms.DateInput(
+                attrs={'class': 'form-control'}
+            ),
+        }
 
 
 class ReviewForm(forms.ModelForm):
