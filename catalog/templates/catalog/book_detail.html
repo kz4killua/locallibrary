@@ -40,10 +40,13 @@
             <a type="button" class="btn btn-danger" href="{% url 'catalog:book-delete' book.pk %}">Delete Book</a>
         {% endif %}
         <br>
-        {% if book.pk in request.session.cart %}
-            <button type="button" class="btn btn-primary toggle-cart-button" data-book="{{ book.pk }}">Remove from Cart</button>
-        {% elif book.available_copies %}
-            <button type="button" class="btn btn-primary toggle-cart-button" data-book="{{ book.pk }}">Add to Cart</button>
+
+        {% if user.is_authenticated %}
+            {% if book.pk in request.session.cart %}
+                <button type="button" class="btn btn-primary toggle-cart-button" data-book="{{ book.pk }}">Remove from Cart</button>
+            {% elif book.available_copies %}
+                <button type="button" class="btn btn-primary toggle-cart-button" data-book="{{ book.pk }}">Add to Cart</button>
+            {% endif %}
         {% endif %}
     </div>
 
