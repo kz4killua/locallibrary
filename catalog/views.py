@@ -343,6 +343,9 @@ class BookCopyCreateView(PermissionRequiredMixin, generic.CreateView):
     form_class = BookCopyForm
     template_name = 'catalog/model_form.html'
 
+    def get_initial(self):
+        return {'book': get_object_or_404(Book, id=self.kwargs['pk'])}
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['model'] = 'BookCopy'

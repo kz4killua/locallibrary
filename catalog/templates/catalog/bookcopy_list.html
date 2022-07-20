@@ -8,7 +8,7 @@
     <h1>Copies of {{ book.title }}</h1>
 
     {% if 'catalog.add_bookcopy' in perms %}
-        <a type="button" class="btn btn-secondary" href="{% url 'catalog:bookcopy-create' %}">Create Copy</a>
+        <a type="button" class="btn btn-secondary" href="{% url 'catalog:bookcopy-create' book.pk %}">Create Copy</a>
     {% endif %}
 {% endblock %}
 

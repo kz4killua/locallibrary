@@ -27,7 +27,7 @@ urlpatterns = [
 
     path('copies/<int:pk>', views.BookCopyListView.as_view(), name='book-copies'),
 
-    path('bookcopy/create/', views.BookCopyCreateView.as_view(), name='bookcopy-create'),
+    path('bookcopy/<int:pk>/create/', views.BookCopyCreateView.as_view(), name='bookcopy-create'),
     path('bookcopy/<int:pk>/update/', views.BookCopyUpdateView.as_view(), name='bookcopy-update'),
     path('bookcopy/<int:pk>/delete/', views.BookCopyDeleteView.as_view(), name='bookcopy-delete'),
 
