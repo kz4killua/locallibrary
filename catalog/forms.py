@@ -1,4 +1,3 @@
-from attr import attrs
 from django import forms
 
 from .models import BookCopy, Loan, Review, Book, Author
